@@ -6,6 +6,11 @@ app = FastAPI() ##Instancia de FastAPI
 def home():    ##Path operation function
     return {"Hello": "World"}   ##Json
 
+#Request and Response Body 
+@app.post("/person/new")
+def create_person():
+    pass 
+
 @app.get("/ciudades")
 def ciudades():
     return {"Colombia":"Bogota"}
