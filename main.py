@@ -8,6 +8,7 @@ from pydantic import BaseModel
 #FastAPI
 from fastapi import FastAPI
 from fastapi import Body
+from fastapi import Query
 
 app = FastAPI() ##Instancia de FastAPI
 
@@ -28,6 +29,13 @@ def home():    ##Path operation function
 @app.post("/person/new")
 def create_person(person: Person = Body(...)):  #Parámetro person de clase Person. Request Body obligatorio.
     return person
+
+@app.get("/person/details")
+def show_person(
+    name: Optional[str] = Query(None, min_length=1, max_length=50),
+    age: Optional[str] = Query(...)
+):
+    return {name: age}
 
 
 """
