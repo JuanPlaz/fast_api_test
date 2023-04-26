@@ -18,7 +18,7 @@ class Person(BaseModel):    ##Creación de constructor con Pydantic
     last_name: str
     age: int
     hair_color: Optional[str] = None    #Atributos opcionales de la clase Person
-    is_married: Optional[bool] = None
+    is_married: Optional[bool] = None   #Se definen variables None en caso de no ser definidas
 
 
 @app.get("/") ##Path Operation decorator (Usa metodo get).
