@@ -1,28 +1,37 @@
 
 #Python
 from typing import Optional
+from enum import Enum   ##Class to validate strings Enumerations.
 
 #Pydantic
 from pydantic import BaseModel
+from pydantic import Field      ##Required to validate models.
 
 #FastAPI
 from fastapi import FastAPI
-from fastapi import Body, Query, Path
+from fastapi import Body, Query, Path   
 
 app = FastAPI() ##Instancia de FastAPI
 
 #Models
+class HairColor(Enum):
+    white = "white"
+    brown = "brown"
+    black = "black"
+    blonde = "blonde"
+    red = "red"
+
 class Location(BaseModel):
     city: str
     state: str
     country: str
 
 class Person(BaseModel):    ##Creation of the constructor with Pydantic
-    first_name: str
-    last_name: str
-    age: int
-    hair_color: Optional[str] = None    #Optional parameters of the Person class 
-    is_married: Optional[bool] = None   #It is not define, the variable can be None.
+    first_name: str = Field(..., min_length=1, max_length=50)   ##... (mandatory) Use Field to validate models.
+    last_name: str = Field(..., min_length=1, max_length=50)
+    age: int = Field(..., gt=0, le=115)
+    hair_color: Optional[HairColor] = Field(default=None)    #Optional parameters of the Person class 
+    is_married: Optional[bool] = Field(default=None)  #It is not define, the variable can be None.
 
 
 @app.get("/") ##Path Operation decorator (Use get method).
