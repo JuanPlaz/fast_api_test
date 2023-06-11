@@ -22,16 +22,28 @@ class HairColor(Enum):
     red = "red"
 
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    city: str = Field(..., min_length=1, max_length=50, example="Sydney" )
+    state: str = Field(..., min_length=1, max_length=50, example="NSW")
+    country: str = Field(..., min_length=1, max_length=50, example="Australia")
 
 class Person(BaseModel):    ##Creation of the constructor with Pydantic
-    first_name: str = Field(..., min_length=1, max_length=50)   ##... (mandatory) Use Field to validate models.
-    last_name: str = Field(..., min_length=1, max_length=50)
-    age: int = Field(..., gt=0, le=115)
-    hair_color: Optional[HairColor] = Field(default=None)    #Optional parameters of the Person class 
-    is_married: Optional[bool] = Field(default=None)  #It is not define, the variable can be None.
+    first_name: str = Field(..., min_length=1, max_length=50, example="Juan")   ##... (mandatory) Use Field to validate models.
+    last_name: str = Field(..., min_length=1, max_length=50, example="Plazas")
+    age: int = Field(..., gt=0, le=115, example= 30)
+    hair_color: Optional[HairColor] = Field(default=None, example="black")    #Optional parameters of the Person class 
+    is_married: Optional[bool] = Field(default=None, example=True)  #It is not define, the variable can be None.
+
+    #class Config: ##Helps to define default information.
+     #   schema_extra = {
+      #      "example": {
+       #         "first_name": "Facundo",
+        #        "last_name": "Garcia Martoni",
+         #       "age": 21,
+          #      "hair_color": "blonde",
+           #     "is_married": False
+            #}
+
+        #}
 
 
 @app.get("/") ##Path Operation decorator (Use get method).
